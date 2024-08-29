@@ -8,7 +8,7 @@ with st.sidebar:
     #api_key = st.text_input(f"{model} Key", key="chatbot_api_key", type="password")
     temperature = st.slider('temperature', min_value=0.01, max_value=1.0, value=0.1, step=0.01)
     top_p = st.slider('top_p', min_value=0.01, max_value=1.0, value=0.9, step=0.01)
-    max_length = st.slider('max_length', min_value=32, max_value=128, value=120, step=8)
+    max_length = st.slider('max_length', min_value=500, max_value=5000, value=1000, step=50)
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{
@@ -19,9 +19,6 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 if prompt := st.chat_input(placeholder="Say hi to start!"):
-    # if not api_key:
-    #     st.info(f"Please add your {model} API key to continue.")
-    #     st.stop()
     client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
     st.session_state.messages.append(
         {"role": "system", "content": """
